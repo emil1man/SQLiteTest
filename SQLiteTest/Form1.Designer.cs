@@ -36,6 +36,7 @@
             this.tb_worName = new System.Windows.Forms.TextBox();
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
+            this.tb_output = new System.Windows.Forms.TextBox();
             this.tb_worPos = new System.Windows.Forms.ComboBox();
             this.tab_Sup = new System.Windows.Forms.TabPage();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
@@ -48,7 +49,6 @@
             this.tb_outTree = new System.Windows.Forms.TextBox();
             this.tab_Out = new System.Windows.Forms.TabPage();
             this.button3 = new System.Windows.Forms.Button();
-            this.tb_output = new System.Windows.Forms.TextBox();
             this.tabControl1.SuspendLayout();
             this.tab_Wor.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
@@ -154,6 +154,17 @@
             this.button2.Text = "Найти сотрудника по имени";
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.SearchForWorker_Click);
+            // 
+            // tb_output
+            // 
+            this.tableLayoutPanel1.SetColumnSpan(this.tb_output, 3);
+            this.tb_output.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tb_output.Location = new System.Drawing.Point(3, 63);
+            this.tb_output.Multiline = true;
+            this.tb_output.Name = "tb_output";
+            this.tb_output.ReadOnly = true;
+            this.tb_output.Size = new System.Drawing.Size(604, 183);
+            this.tb_output.TabIndex = 6;
             // 
             // tb_worPos
             // 
@@ -295,17 +306,6 @@
             this.button3.TabIndex = 1;
             this.button3.Text = "button3";
             this.button3.UseVisualStyleBackColor = true;
-            // 
-            // tb_output
-            // 
-            this.tableLayoutPanel1.SetColumnSpan(this.tb_output, 3);
-            this.tb_output.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tb_output.Location = new System.Drawing.Point(3, 63);
-            this.tb_output.Multiline = true;
-            this.tb_output.Name = "tb_output";
-            this.tb_output.ReadOnly = true;
-            this.tb_output.Size = new System.Drawing.Size(604, 183);
-            this.tb_output.TabIndex = 6;
             // 
             // Form1
             // 
