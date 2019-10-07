@@ -49,6 +49,7 @@
             this.tb_outTree = new System.Windows.Forms.TextBox();
             this.tab_Out = new System.Windows.Forms.TabPage();
             this.button3 = new System.Windows.Forms.Button();
+            this.textBox1 = new System.Windows.Forms.TextBox();
             this.tabControl1.SuspendLayout();
             this.tab_Wor.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
@@ -163,6 +164,7 @@
             this.tb_output.Multiline = true;
             this.tb_output.Name = "tb_output";
             this.tb_output.ReadOnly = true;
+            this.tb_output.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.tb_output.Size = new System.Drawing.Size(604, 183);
             this.tb_output.TabIndex = 6;
             // 
@@ -284,11 +286,13 @@
             this.tb_outTree.Multiline = true;
             this.tb_outTree.Name = "tb_outTree";
             this.tb_outTree.ReadOnly = true;
+            this.tb_outTree.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.tb_outTree.Size = new System.Drawing.Size(604, 123);
             this.tb_outTree.TabIndex = 6;
             // 
             // tab_Out
             // 
+            this.tab_Out.Controls.Add(this.textBox1);
             this.tab_Out.Controls.Add(this.button3);
             this.tab_Out.Location = new System.Drawing.Point(4, 22);
             this.tab_Out.Name = "tab_Out";
@@ -306,6 +310,16 @@
             this.button3.TabIndex = 1;
             this.button3.Text = "button3";
             this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
+            // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(8, 6);
+            this.textBox1.Multiline = true;
+            this.textBox1.Name = "textBox1";
+            this.textBox1.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.textBox1.Size = new System.Drawing.Size(600, 212);
+            this.textBox1.TabIndex = 2;
             // 
             // Form1
             // 
@@ -326,6 +340,7 @@
             this.tableLayoutPanel2.ResumeLayout(false);
             this.tableLayoutPanel2.PerformLayout();
             this.tab_Out.ResumeLayout(false);
+            this.tab_Out.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -353,6 +368,7 @@
         private System.Windows.Forms.Button butt_ShowWorForSup;
         private System.Windows.Forms.TextBox tb_outTree;
         private System.Windows.Forms.TextBox tb_output;
+        private System.Windows.Forms.TextBox textBox1;
     }
 }
 
