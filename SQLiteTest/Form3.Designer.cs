@@ -1,6 +1,6 @@
 ﻿namespace SQLiteTest
 {
-    partial class Form4
+    partial class Form3
     {
         /// <summary>
         /// Required designer variable.
@@ -30,69 +30,64 @@
         {
             this.components = new System.ComponentModel.Container();
             Microsoft.Reporting.WinForms.ReportDataSource reportDataSource1 = new Microsoft.Reporting.WinForms.ReportDataSource();
-            this.СредняяЗПBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.companyBD = new SQLiteTest.companyBD();
-            this.СотрудникиЗПBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.reportViewer1 = new Microsoft.Reporting.WinForms.ReportViewer();
-            this.СотрудникиЗПTableAdapter = new SQLiteTest.companyBDTableAdapters.СотрудникиЗПTableAdapter();
+            this.companyBD = new SQLiteTest.companyBD();
+            this.СредняяЗПBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.СредняяЗПTableAdapter = new SQLiteTest.companyBDTableAdapters.СредняяЗПTableAdapter();
-            this.средняяЗПTableAdapter1 = new SQLiteTest.companyBDTableAdapters.СредняяЗПTableAdapter();
-            ((System.ComponentModel.ISupportInitialize)(this.СредняяЗПBindingSource)).BeginInit();
+            this.ИнформацияОРуководителяхBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.ИнформацияОРуководителяхTableAdapter = new SQLiteTest.companyBDTableAdapters.ИнформацияОРуководителяхTableAdapter();
             ((System.ComponentModel.ISupportInitialize)(this.companyBD)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.СотрудникиЗПBindingSource)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.СредняяЗПBindingSource)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ИнформацияОРуководителяхBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
-            // СредняяЗПBindingSource
+            // reportViewer1
             // 
-            this.СредняяЗПBindingSource.DataMember = "СредняяЗП";
-            this.СредняяЗПBindingSource.DataSource = this.companyBD;
+            this.reportViewer1.Dock = System.Windows.Forms.DockStyle.Fill;
+            reportDataSource1.Name = "supInfo";
+            reportDataSource1.Value = this.ИнформацияОРуководителяхBindingSource;
+            this.reportViewer1.LocalReport.DataSources.Add(reportDataSource1);
+            this.reportViewer1.LocalReport.ReportEmbeddedResource = "SQLiteTest.Reports.SupInfo.rdlc";
+            this.reportViewer1.Location = new System.Drawing.Point(0, 0);
+            this.reportViewer1.Name = "reportViewer1";
+            this.reportViewer1.Size = new System.Drawing.Size(916, 383);
+            this.reportViewer1.TabIndex = 1;
             // 
             // companyBD
             // 
             this.companyBD.DataSetName = "companyBD";
             this.companyBD.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
             // 
-            // СотрудникиЗПBindingSource
+            // СредняяЗПBindingSource
             // 
-            this.СотрудникиЗПBindingSource.DataMember = "СотрудникиЗП";
-            this.СотрудникиЗПBindingSource.DataSource = this.companyBD;
-            // 
-            // reportViewer1
-            // 
-            this.reportViewer1.Dock = System.Windows.Forms.DockStyle.Fill;
-            reportDataSource1.Name = "avgSal";
-            reportDataSource1.Value = this.СредняяЗПBindingSource;
-            this.reportViewer1.LocalReport.DataSources.Add(reportDataSource1);
-            this.reportViewer1.LocalReport.ReportEmbeddedResource = "SQLiteTest.Reports.AvgSalary.rdlc";
-            this.reportViewer1.Location = new System.Drawing.Point(0, 0);
-            this.reportViewer1.Name = "reportViewer1";
-            this.reportViewer1.Size = new System.Drawing.Size(916, 383);
-            this.reportViewer1.TabIndex = 0;
-            // 
-            // СотрудникиЗПTableAdapter
-            // 
-            this.СотрудникиЗПTableAdapter.ClearBeforeFill = true;
+            this.СредняяЗПBindingSource.DataMember = "СредняяЗП";
+            this.СредняяЗПBindingSource.DataSource = this.companyBD;
             // 
             // СредняяЗПTableAdapter
             // 
             this.СредняяЗПTableAdapter.ClearBeforeFill = true;
             // 
-            // средняяЗПTableAdapter1
+            // ИнформацияОРуководителяхBindingSource
             // 
-            this.средняяЗПTableAdapter1.ClearBeforeFill = true;
+            this.ИнформацияОРуководителяхBindingSource.DataMember = "ИнформацияОРуководителях";
+            this.ИнформацияОРуководителяхBindingSource.DataSource = this.companyBD;
             // 
-            // Form4
+            // ИнформацияОРуководителяхTableAdapter
+            // 
+            this.ИнформацияОРуководителяхTableAdapter.ClearBeforeFill = true;
+            // 
+            // Form3
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(916, 383);
             this.Controls.Add(this.reportViewer1);
-            this.Name = "Form4";
-            this.Text = "Form4";
-            this.Load += new System.EventHandler(this.Form4_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.СредняяЗПBindingSource)).EndInit();
+            this.Name = "Form3";
+            this.Text = "Form3";
+            this.Load += new System.EventHandler(this.Form3_Load);
             ((System.ComponentModel.ISupportInitialize)(this.companyBD)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.СотрудникиЗПBindingSource)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.СредняяЗПBindingSource)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ИнформацияОРуководителяхBindingSource)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -100,11 +95,10 @@
         #endregion
 
         private Microsoft.Reporting.WinForms.ReportViewer reportViewer1;
-        private System.Windows.Forms.BindingSource СотрудникиЗПBindingSource;
-        private companyBD companyBD;
         private System.Windows.Forms.BindingSource СредняяЗПBindingSource;
-        private companyBDTableAdapters.СотрудникиЗПTableAdapter СотрудникиЗПTableAdapter;
+        private companyBD companyBD;
         private companyBDTableAdapters.СредняяЗПTableAdapter СредняяЗПTableAdapter;
-        private companyBDTableAdapters.СредняяЗПTableAdapter средняяЗПTableAdapter1;
+        private System.Windows.Forms.BindingSource ИнформацияОРуководителяхBindingSource;
+        private companyBDTableAdapters.ИнформацияОРуководителяхTableAdapter ИнформацияОРуководителяхTableAdapter;
     }
 }

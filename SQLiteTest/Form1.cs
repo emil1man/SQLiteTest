@@ -348,14 +348,129 @@ namespace SQLiteTest
             Form2 f2 = new Form2();
             f2.ShowDialog();
         }   // Посчитать ЗП всех сотрудников за последние 6 месяцев
+        private void button4_Click(object sender, EventArgs e)
+        {
+            List<int> supIDs = new List<int>();   // Список ID всех начальников
+            //List<string[]>[] chiefWithEmp;    // 
+            List<string[]> workers = new List<string[]>();
+            SQLiteCommand CMD = new SQLiteCommand("SELECT * FROM Иерархия", sqLiteConnection); // Отображает всех сотрудников без начальника
+            SQLiteDataReader sqLiteDataReader = CMD.ExecuteReader();    // Переменная для чтения из "CMD"
+            compStruct = new Node(0);
+            if (sqLiteDataReader.HasRows)
+            {
+                while (sqLiteDataReader.Read())
+                {
+                    int idS = 0;
+                    if (sqLiteDataReader[2].ToString() != "") { idS = Convert.ToInt32(sqLiteDataReader[2].ToString()); }
+                    Node.NodesAdd(compStruct, idS, Convert.ToInt32(sqLiteDataReader[1].ToString()));
+                }
+            }   // Заполняем иерархию в compStruct
 
+            CMD = new SQLiteCommand("SELECT * FROM СотрудникиЗП", sqLiteConnection);
+            sqLiteDataReader = CMD.ExecuteReader();
+            if (sqLiteDataReader.HasRows)
+            {
+                while (sqLiteDataReader.Read())
+                {
+                    workers.Add(new string[9]);
+                    for (int i = 0; i < 9; i++)
+                    {
+                        workers[workers.Count - 1][i] = sqLiteDataReader[i].ToString();
+                    }
+                }
+            }   // Считываем данные по сотрудникам
 
+            CMD = new SQLiteCommand("SELECT* FROM Иерархия WHERE Начальник IS NOT NULL GROUP BY Начальник", sqLiteConnection);
+            sqLiteDataReader = CMD.ExecuteReader();
+            if (sqLiteDataReader.HasRows)
+            {
+                while (sqLiteDataReader.Read())
+                {
+                    supIDs.Add(sqLiteDataReader.GetInt32(2));
+                }
+            }   // Находим ID всех у кого есть подчиненные
 
+            CMD = new SQLiteCommand("DROP TABLE IF EXISTS ИнформацияОРуководителях; CREATE TABLE ИнформацияОРуководителях (ID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, Сотрудник TEXT, Должность TEXT, ЗПЗатраты2 NUMERIC, ЗПЗатраты1 NUMERIC, ЗПЗатраты0 NUMERIC, СредняяЗП NUMERIC, МинимальнаяЗП NUMERIC, Максимальная NUMERIC);", sqLiteConnection);
+            CMD.ExecuteNonQuery();
+            List<string[]> supInfo = new List<string[]>();
+            for (int i = 0; i < supIDs.Count; i++)
+            {
+                List<string[]> temp = new List<string[]>(); // Список для хранения начальника и его подчиненных
+                temp.AddRange(getListOfSupAndEmp(Node.FindNodyByID(compStruct, supIDs[i]), workers));   // Заполнение списка
+
+                double[] sumSalByMonths = new double[6] { 0, 0, 0, 0, 0, 0 }; // Переменная для нахождения сумм зарплат
+                double[] avgCountByMonths = new double[6] { 0, 0, 0, 0, 0, 0 }; // Переменная для хранения количества получающих ЗП за месяц
+                double avdSalBy6Months = 0; // Переменная для нахождения средней ЗП за 6 месяцев
+                double minSal = Convert.ToDouble(temp[1][3]), maxSal = Convert.ToDouble(temp[1][3]);  // Минимальная и максимальная ЗП
+
+                // ID, Имя, должн, зп5, 4, 3, 2, 1, 0
+                for (int j = 1; j < temp.Count; j++)
+                {
+                    for (int k = 0; k < 6; k++)
+                    {
+                        sumSalByMonths[k] += Convert.ToDouble(temp[j][3 + k]); // Прибавляем к итоговой сумме ЗП подчиненного за месяц k
+                        avgCountByMonths[k] += Convert.ToDouble(temp[j][3 + k]) > 0 ? 1 : 0;   // Считает работал ли подчиненный j в месяце k
+                        minSal = Convert.ToDouble(temp[j][3 + k]) < minSal && Convert.ToDouble(temp[j][3 + k]) > 0 ? Convert.ToDouble(temp[j][3 + k]) : minSal;   // Ищет минимальную ЗП для каждого j в k
+                        maxSal = Convert.ToDouble(temp[j][3 + k]) > maxSal ? Convert.ToDouble(temp[j][3 + k]) : maxSal;    // Ищет максимальную ЗП для каждого j в k
+                    }
+                }
+
+                for (int j = 0; j < 6; j++)
+                {
+                    double d = (sumSalByMonths[j] / avgCountByMonths[j]);
+                    avdSalBy6Months += d;
+                }
+                avdSalBy6Months /= 6;   // Подсчёт средней ЗП
+                supInfo.Add(new string[9]);
+                for (int j = 0; j < 3; j++)
+                {
+                    supInfo[supInfo.Count - 1][j] = temp[0][j];
+                }
+                for (int j = 3; j < 6; j++)
+                {
+                    supInfo[supInfo.Count - 1][j] = sumSalByMonths[j].ToString();
+                }
+                supInfo[supInfo.Count - 1][6] = avdSalBy6Months.ToString();
+                supInfo[supInfo.Count - 1][7] = minSal.ToString();
+                supInfo[supInfo.Count - 1][8] = maxSal.ToString();
+            }
+            for (int j = 0; j < supInfo.Count; j++)
+            {
+                CMD = new SQLiteCommand("INSERT INTO ИнформацияОРуководителях (Сотрудник, Должность, ЗПЗатраты2, ЗПЗатраты1, ЗПЗатраты0, СредняяЗП, МинимальнаяЗП, Максимальная) VALUES (@Name, @Pos, @SalSum2, @SalSum1, @SalSum0, @AvgSalMonths, @MinSal, @MaxSal);", sqLiteConnection);
+                CMD.Parameters.Add("@Name", System.Data.DbType.String).Value = supInfo[j][1].ToUpper();   // Параметр в который записывается Имя
+                CMD.Parameters.Add("@Pos", System.Data.DbType.String).Value = supInfo[j][2].ToUpper();   // Параметр в который записывается Имя
+                CMD.Parameters.Add("@SalSum2", System.Data.DbType.Double).Value = supInfo[j][3];   // Параметр в который записывается Имя
+                CMD.Parameters.Add("@SalSum1", System.Data.DbType.Double).Value = supInfo[j][4];   // Параметр в который записывается Имя
+                CMD.Parameters.Add("@SalSum0", System.Data.DbType.Double).Value = supInfo[j][5];   // Параметр в который записывается Имя
+                CMD.Parameters.Add("@AvgSalMonths", System.Data.DbType.Double).Value = supInfo[j][6];   // Параметр в который записывается Имя
+                CMD.Parameters.Add("@MinSal", System.Data.DbType.Double).Value = supInfo[j][7];   // Параметр в который записывается Имя
+                CMD.Parameters.Add("@MaxSal", System.Data.DbType.Double).Value = supInfo[j][8];   // Параметр в который записывается Имя
+                CMD.ExecuteNonQuery();
+            }
+
+            Form3 f3 = new Form3();
+            f3.ShowDialog();
+        }   // Вывести отчёт с информацией о руководителях
         private void button5_Click(object sender, EventArgs e)
         {
-            Form4 f4 = new Form4(  );
+            Form4 f4 = new Form4();
             f4.ShowDialog();
         }   // Вывести отчёт для средних ЗП по должностям
+
+        List<string[]> getListOfSupAndEmp(Node nd, List<string[]> workers)
+        {
+            List<string[]> temp = new List<string[]>();
+            temp.Add(workers[nd.ID - 1]);
+            if (nd.Employees.Count > 0)
+            {
+                foreach (Node sup in nd.Employees)
+                {
+                    temp.AddRange(getListOfSupAndEmp(sup, workers));
+                }
+            }
+            return temp;
+        }   // Возвращает List с подчиненными для nd.ID, первый элемент списка - начальник
+
     }
 
     class compareListByID : IComparer<string[]>
@@ -452,5 +567,23 @@ namespace SQLiteTest
         }
         // Ищет в дереве nd по ID id и отображает в виде строки
 
+        public static Node FindNodyByID(Node nd, int id)
+        {
+            if (nd.ID == id)
+            {
+                return nd;
+            }
+            else
+            {
+                if (nd.Employees.Count > 0)
+                {
+                    for (int i = 0; i < nd.Employees.Count; i++)
+                    {
+                        return FindNodyByID(nd.Employees[i], id);
+                    }
+                }
+            };
+            throw new Exception("Can't find node with ID");
+        }
     }   // Класс для работы с деревом
 }

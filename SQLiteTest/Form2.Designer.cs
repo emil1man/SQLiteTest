@@ -33,9 +33,9 @@
             Microsoft.Reporting.WinForms.ReportDataSource reportDataSource2 = new Microsoft.Reporting.WinForms.ReportDataSource();
             this.СотрудникиЗПBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.companyBD = new SQLiteTest.companyBD();
+            this.СуммаЗПBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.reportViewer1 = new Microsoft.Reporting.WinForms.ReportViewer();
             this.СотрудникиЗПTableAdapter = new SQLiteTest.companyBDTableAdapters.СотрудникиЗПTableAdapter();
-            this.СуммаЗПBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.СуммаЗПTableAdapter = new SQLiteTest.companyBDTableAdapters.СуммаЗПTableAdapter();
             ((System.ComponentModel.ISupportInitialize)(this.СотрудникиЗПBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.companyBD)).BeginInit();
@@ -52,6 +52,11 @@
             this.companyBD.DataSetName = "companyBD";
             this.companyBD.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
             // 
+            // СуммаЗПBindingSource
+            // 
+            this.СуммаЗПBindingSource.DataMember = "СуммаЗП";
+            this.СуммаЗПBindingSource.DataSource = this.companyBD;
+            // 
             // reportViewer1
             // 
             this.reportViewer1.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -61,7 +66,7 @@
             reportDataSource2.Value = this.СуммаЗПBindingSource;
             this.reportViewer1.LocalReport.DataSources.Add(reportDataSource1);
             this.reportViewer1.LocalReport.DataSources.Add(reportDataSource2);
-            this.reportViewer1.LocalReport.ReportEmbeddedResource = "SQLiteTest.AllWorksSalLast6MM.rdlc";
+            this.reportViewer1.LocalReport.ReportEmbeddedResource = "SQLiteTest.Reports.AllWorksSalLast6MM.rdlc";
             this.reportViewer1.Location = new System.Drawing.Point(0, 0);
             this.reportViewer1.Name = "reportViewer1";
             this.reportViewer1.Size = new System.Drawing.Size(916, 383);
@@ -70,11 +75,6 @@
             // СотрудникиЗПTableAdapter
             // 
             this.СотрудникиЗПTableAdapter.ClearBeforeFill = true;
-            // 
-            // СуммаЗПBindingSource
-            // 
-            this.СуммаЗПBindingSource.DataMember = "СуммаЗП";
-            this.СуммаЗПBindingSource.DataSource = this.companyBD;
             // 
             // СуммаЗПTableAdapter
             // 

@@ -17,8 +17,8 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox11</rd:DefaultName>
-        <Top>0.45488cm</Top>
-        <Left>1.08162cm</Left>
+        <Top>0.61363cm</Top>
+        <Left>0.85958cm</Left>
         <Height>0.6cm</Height>
         <Width>14.51208cm</Width>
         <Style>
@@ -255,8 +255,8 @@
           </TablixMembers>
         </TablixRowHierarchy>
         <DataSetName>avgSal</DataSetName>
-        <Top>1.23127cm</Top>
-        <Left>1.08162cm</Left>
+        <Top>1.39002cm</Top>
+        <Left>0.85958cm</Left>
         <Height>1.2cm</Height>
         <Width>14.51208cm</Width>
         <ZIndex>1</ZIndex>
@@ -267,10 +267,10 @@
         </Style>
       </Tablix>
     </ReportItems>
-    <Height>5.71875in</Height>
+    <Height>8.3in</Height>
     <Style />
   </Body>
-  <Width>6.77467in</Width>
+  <Width>11.7in</Width>
   <Page>
     <PageHeight>29.7cm</PageHeight>
     <PageWidth>21cm</PageWidth>
