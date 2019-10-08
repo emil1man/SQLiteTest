@@ -48,14 +48,17 @@
             this.butt_ShowWorForSup = new System.Windows.Forms.Button();
             this.tb_outTree = new System.Windows.Forms.TextBox();
             this.tab_Out = new System.Windows.Forms.TabPage();
+            this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
             this.button3 = new System.Windows.Forms.Button();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.button4 = new System.Windows.Forms.Button();
+            this.button5 = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tab_Wor.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             this.tab_Sup.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.tab_Out.SuspendLayout();
+            this.tableLayoutPanel3.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -292,8 +295,7 @@
             // 
             // tab_Out
             // 
-            this.tab_Out.Controls.Add(this.textBox1);
-            this.tab_Out.Controls.Add(this.button3);
+            this.tab_Out.Controls.Add(this.tableLayoutPanel3);
             this.tab_Out.Location = new System.Drawing.Point(4, 22);
             this.tab_Out.Name = "tab_Out";
             this.tab_Out.Padding = new System.Windows.Forms.Padding(3);
@@ -302,24 +304,55 @@
             this.tab_Out.Text = "Отчёты";
             this.tab_Out.UseVisualStyleBackColor = true;
             // 
+            // tableLayoutPanel3
+            // 
+            this.tableLayoutPanel3.ColumnCount = 1;
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel3.Controls.Add(this.button3, 0, 0);
+            this.tableLayoutPanel3.Controls.Add(this.button4, 0, 1);
+            this.tableLayoutPanel3.Controls.Add(this.button5, 0, 2);
+            this.tableLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel3.Location = new System.Drawing.Point(3, 3);
+            this.tableLayoutPanel3.Name = "tableLayoutPanel3";
+            this.tableLayoutPanel3.RowCount = 3;
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(610, 249);
+            this.tableLayoutPanel3.TabIndex = 3;
+            // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(535, 224);
+            this.button3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.button3.Location = new System.Drawing.Point(3, 3);
             this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(75, 23);
+            this.button3.Size = new System.Drawing.Size(604, 77);
             this.button3.TabIndex = 1;
-            this.button3.Text = "button3";
+            this.button3.Text = "Создать отчёт о зарплатах сотрудников за 6 месяцев";
             this.button3.UseVisualStyleBackColor = true;
             this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
-            // textBox1
+            // button4
             // 
-            this.textBox1.Location = new System.Drawing.Point(8, 6);
-            this.textBox1.Multiline = true;
-            this.textBox1.Name = "textBox1";
-            this.textBox1.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.textBox1.Size = new System.Drawing.Size(600, 212);
-            this.textBox1.TabIndex = 2;
+            this.button4.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.button4.Location = new System.Drawing.Point(3, 86);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(604, 77);
+            this.button4.TabIndex = 2;
+            this.button4.Text = "button4";
+            this.button4.UseVisualStyleBackColor = true;
+            // 
+            // button5
+            // 
+            this.button5.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.button5.Location = new System.Drawing.Point(3, 169);
+            this.button5.Name = "button5";
+            this.button5.Size = new System.Drawing.Size(604, 77);
+            this.button5.TabIndex = 3;
+            this.button5.Text = "Отчёт о средних ЗП по должностям";
+            this.button5.UseVisualStyleBackColor = true;
+            this.button5.Click += new System.EventHandler(this.button5_Click);
             // 
             // Form1
             // 
@@ -340,7 +373,7 @@
             this.tableLayoutPanel2.ResumeLayout(false);
             this.tableLayoutPanel2.PerformLayout();
             this.tab_Out.ResumeLayout(false);
-            this.tab_Out.PerformLayout();
+            this.tableLayoutPanel3.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -368,7 +401,9 @@
         private System.Windows.Forms.Button butt_ShowWorForSup;
         private System.Windows.Forms.TextBox tb_outTree;
         private System.Windows.Forms.TextBox tb_output;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
+        private System.Windows.Forms.Button button4;
+        private System.Windows.Forms.Button button5;
     }
 }
 

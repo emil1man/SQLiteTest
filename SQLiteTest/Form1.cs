@@ -69,7 +69,6 @@ namespace SQLiteTest
                 tb_output.Text = "Новый сотрудник добавлен в базу. \r\nИмя: " + tb_worName.Text.ToUpper().ToString() + "\r\nДолжность: " + tb_worPos.SelectedItem + "\r\nДата трудоустройства: " + DateTime.Today.ToString("O").Split('T')[0];  // Сообщение показывающее введеные данные 
             }
         }   // Нажатие кнопки "Добавить сотрудника"
-
         private void SearchForWorker_Click(object sender, EventArgs e)
         {
             tb_output.Text = "ID\tИмя\tДолжность\tДата Трудоустройства\r\n";
@@ -89,306 +88,6 @@ namespace SQLiteTest
 
             }
         }   // Поиск среди имён сотрудников попадания @Name
-
-        int getSalary(Node nd)
-        {
-
-            string queGetSal = "SELECT НадбавкаИтог FROM СотрудникиЗарплатыTemp WHERE СотрудникиЗарплатыTemp.ID = @ID";
-            string queGetPos = "SELECT Должность FROM СотрудникиЗарплатыTemp WHERE СотрудникиЗарплатыTemp.ID = @ID";
-            string queSetSal1 = "UPDATE СотрудникиЗарплатыTemp SET НадбавкаСотрудники = @EmpSal  WHERE СотрудникиЗарплатыTemp.ID = @ID";
-            string queSetSal2 = "UPDATE СотрудникиЗарплатыTemp SET НадбавкаИтог = БазоваяСтавка + НадбавкаСтаж + НадбавкаСотрудники  WHERE СотрудникиЗарплатыTemp.ID = @ID";
-            int sum = 0;
-            if (nd.ID == 0)
-            {
-                for (int i = 0; i < nd.Employees.Count; i++)
-                {
-                    sum += getSalary(nd.Employees[i]);
-                }
-            }
-            else
-            {
-                SQLiteCommand CMD = new SQLiteCommand("SELECT * FROM СотрудникиЗарплатыTemp", sqLiteConnection);
-                SQLiteDataReader sqLiteDataReader = CMD.ExecuteReader();
-                CMD.Reset();
-                if (nd.Employees.Count <= 0)
-                {
-                    CMD = new SQLiteCommand(queGetSal, sqLiteConnection);
-                    CMD.Parameters.Add("@ID", System.Data.DbType.Int32).Value = nd.ID;
-                    sqLiteDataReader = CMD.ExecuteReader();    // Переменная для чтения из "CMD"
-                    sqLiteDataReader.Read();
-                    sum = Convert.ToInt32(sqLiteDataReader["НадбавкаИтог"].ToString());
-                    sqLiteDataReader.Close();
-                }
-                else
-                {
-                    CMD = new SQLiteCommand(queGetPos, sqLiteConnection);
-                    CMD.Parameters.Add("@ID", System.Data.DbType.Int32).Value = nd.ID;
-                    sqLiteDataReader = CMD.ExecuteReader();    // Переменная для чтения из "CMD"
-                    sqLiteDataReader.Read();
-                    switch (sqLiteDataReader["Должность"].ToString())
-                    {
-                        case "Manager":
-                            {
-                                for (int i = 0; i < nd.Employees.Count; i++)
-                                {
-                                    sum += getSalary(nd.Employees[i]);
-                                }
-                                // Найти 0,5% и обновить данные таблицы
-                                CMD = new SQLiteCommand(queSetSal1, sqLiteConnection);
-                                CMD.Parameters.Add("@ID", System.Data.DbType.Int32).Value = nd.ID;
-                                CMD.Parameters.Add("@EmpSal", System.Data.DbType.Int32).Value = sum * 0.5;
-                                CMD.ExecuteNonQuery();
-                                CMD = new SQLiteCommand(queSetSal2, sqLiteConnection);
-                                CMD.Parameters.Add("@ID", System.Data.DbType.Int32).Value = nd.ID;
-                                CMD.ExecuteNonQuery();
-                                // Обновляет по ID НадбавкаСотрудники и НадбавкаИтог
-                                CMD = new SQLiteCommand(queGetSal, sqLiteConnection);
-                                CMD.Parameters.Add("@ID", System.Data.DbType.Int32).Value = nd.ID; sqLiteDataReader = CMD.ExecuteReader();
-                                sqLiteDataReader.Read();
-                                sum = Convert.ToInt32(sqLiteDataReader["НадбавкаИтог"].ToString());
-                                break;
-                            }
-                        case "Salesman":
-                            {
-                                for (int i = 0; i < nd.Employees.Count; i++)
-                                {
-                                    sum += getSalarySLM(nd.Employees[i], sum);
-                                }
-                                // Найти 0,3% и обновить данные таблицы
-                                CMD = new SQLiteCommand(queSetSal1, sqLiteConnection);
-                                CMD.Parameters.Add("@ID", System.Data.DbType.Int32).Value = nd.ID;
-                                CMD.Parameters.Add("@EmpSal", System.Data.DbType.Int32).Value = sum * 0.3;
-                                CMD.ExecuteNonQuery();
-                                CMD = new SQLiteCommand(queSetSal2, sqLiteConnection);
-                                CMD.Parameters.Add("@ID", System.Data.DbType.Int32).Value = nd.ID;
-                                CMD.ExecuteNonQuery();
-                                // Обновляет по ID НадбавкаСотрудники и НадбавкаИтог
-                                CMD = new SQLiteCommand(queGetSal, sqLiteConnection);
-                                CMD.Parameters.Add("@ID", System.Data.DbType.Int32).Value = nd.ID;
-                                sqLiteDataReader = CMD.ExecuteReader();
-                                sqLiteDataReader.Read();
-                                string s = sqLiteDataReader["НадбавкаИтог"].ToString();
-                                sum = Convert.ToInt32(s);
-                                break;
-                            }
-                    }
-                    sqLiteDataReader.Close();
-                }
-            }
-            return sum;
-        }
-        // Высчитать и занести в БД ЗП по веткам. Для SLM нужен отдельный метод, возвращающий суммы не 1 подуровня, а всех
-
-        int getSalarySLM(Node nd, int salSum)
-        {
-            string queGetSal = "SELECT НадбавкаИтог FROM СотрудникиЗарплатыTemp WHERE СотрудникиЗарплатыTemp.ID = @ID";
-            string queGetPos = "SELECT Должность FROM СотрудникиЗарплатыTemp WHERE СотрудникиЗарплатыTemp.ID = @ID";
-            string queSetSal = "UPDATE СотрудникиЗарплатыTemp SET НадбавкаСотрудники = @EmpSal, НадбавкаИтог = БазоваяСтавка + НадбавкаСтаж + НадбавкаСотрудники WHERE СотрудникиЗарплатыTemp.ID = @ID";
-            SQLiteCommand CMD;
-            SQLiteDataReader sqLiteDataReader;
-
-            int sum = 0;
-
-            if (nd.Employees.Count <= 0)
-            {
-                CMD = new SQLiteCommand(queGetSal, sqLiteConnection);
-                CMD.Parameters.Add("@ID", System.Data.DbType.Int32).Value = nd.ID;
-                sqLiteDataReader = CMD.ExecuteReader();    // Переменная для чтения из "CMD"
-                sqLiteDataReader.Read();
-                sum += Convert.ToInt32(sqLiteDataReader["НадбавкаИтог"].ToString());
-                sqLiteDataReader.Close();
-
-            }
-            else
-            {
-                CMD = new SQLiteCommand(queGetPos, sqLiteConnection);
-                CMD.Parameters.Add("@ID", System.Data.DbType.Int32).Value = nd.ID;
-                sqLiteDataReader = CMD.ExecuteReader();    // Переменная для чтения из "CMD"
-                sqLiteDataReader = CMD.ExecuteReader();
-                sqLiteDataReader.Read();
-                switch (sqLiteDataReader["Должность"].ToString())
-                {
-                    case "Manager":
-                        {
-                            for (int i = 0; i < nd.Employees.Count; i++)
-                            {
-                                sum += getSalary(nd.Employees[i]);
-                            }
-                            // Найти 0,5% и обновить данные таблицы
-                            CMD = new SQLiteCommand(queSetSal, sqLiteConnection);
-                            CMD.Parameters.Add("@ID", System.Data.DbType.Int32).Value = nd.ID;
-                            CMD.Parameters.Add("@EmpSal", System.Data.DbType.Int32).Value = sum * 0.005;
-                            CMD.ExecuteNonQuery();
-                            // Обновляет по ID НадбавкаСотрудники и НадбавкаИтог
-                            CMD = new SQLiteCommand(queGetSal, sqLiteConnection);
-                            CMD.Parameters.Add("@ID", System.Data.DbType.Int32).Value = nd.ID;
-                            sqLiteDataReader = CMD.ExecuteReader();
-                            sqLiteDataReader.Read();
-                            sum += Convert.ToInt32(sqLiteDataReader["НадбавкаИтог"].ToString());
-                            break;
-                        }
-                    case "Salesman":
-                        {
-                            for (int i = 0; i < nd.Employees.Count; i++)
-                            {
-                                sum += getSalarySLM(nd.Employees[i], sum);
-                            }
-                            // Найти 0,3% и обновить данные таблицы
-                            CMD = new SQLiteCommand(queSetSal, sqLiteConnection);
-                            CMD.Parameters.Add("@ID", System.Data.DbType.Int32).Value = nd.ID;
-                            CMD.Parameters.Add("@EmpSal", System.Data.DbType.Int32).Value = sum * 0.003;
-                            CMD.ExecuteNonQuery();
-                            // Обновляет по ID НадбавкаСотрудники и НадбавкаИтог
-                            CMD = new SQLiteCommand(queGetSal, sqLiteConnection);
-                            CMD.Parameters.Add("@ID", System.Data.DbType.Int32).Value = nd.ID;
-                            sqLiteDataReader = CMD.ExecuteReader();
-                            sqLiteDataReader.Read();
-                            sum += Convert.ToInt32(sqLiteDataReader["НадбавкаИтог"].ToString());
-                            break;
-                        }
-                }
-                sqLiteDataReader.Close();
-            }
-            return sum;
-        }
-        // Храним и передаем salSum с ЗП всех подчиненных
-
-        double getMoneyBoii(Node nd, List<string[]> table)
-        {
-            double retSum = 0;
-            for (int i = 0; i < nd.Employees.Count; i++)
-            {
-                if (table[nd.Employees[i].ID - 1][8] != "")
-                {
-                    retSum += Convert.ToDouble(table[nd.Employees[i].ID-1][9]);
-                }
-                else
-                {
-                    string[] temp = table[nd.Employees[i].ID-1];
-                    temp[8] = (getMoneyBoii(nd.Employees[i], table) * (temp[5] == "Manager" ? 0.005 : 0.003)).ToString();
-                    double tempsum = 0;
-                    for (int j = 6; j < 9; j++)
-                    {
-                        tempsum += Convert.ToDouble(temp[j]);
-                    }
-                    temp[9] = tempsum.ToString();
-                    table.Remove(table[nd.Employees[i].ID-1]);
-                    table.Add(temp);
-                    table.Sort(new compareListByID());
-                    retSum += Convert.ToDouble(table[nd.Employees[i].ID][9]);
-                }
-
-            }
-            return retSum;
-        }
-        private void button3_Click(object sender, EventArgs e)
-        {
-            SQLiteCommand CMDa = new SQLiteCommand("DROP TABLE IF EXISTS СотрудникиЗП; CREATE TABLE СотрудникиЗП (ID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, Сотрудник TEXT, Должность TEXT, ЗП5 NUMERIC, ЗП4 NUMERIC, ЗП3 NUMERIC, ЗП2 NUMERIC, ЗП1 NUMERIC, ЗП0 NUMERIC); INSERT INTO СотрудникиЗП ( Сотрудник, Должность ) SELECT Имя, Должность FROM Сотрудники; UPDATE СотрудникиЗП SET Должность = (SELECT Должности.Название FROM Должности WHERE Должность = Должности.ID);", sqLiteConnection);
-            CMDa.ExecuteNonQuery();
-            for (int MONTHS = 6; MONTHS > 0; MONTHS--)
-            {
-                SQLiteCommand CMD = new SQLiteCommand("DROP TABLE IF EXISTS СотрудникиЗарплатыTemp; CREATE TABLE СотрудникиЗарплатыTemp AS SELECT Сотрудники.ID, Сотрудники.Имя, Должности.Название AS Должность, Должности.БазоваяСтавка, Должности.БазоваяСтавка * (min((@Date - Сотрудники.ДатаТрудоустройства - CASE WHEN strftime('%m-%d', @Date) < strftime('%m-%d', Сотрудники.ДатаТрудоустройства) THEN 1 ELSE 0 END) * Должности.НадбавкаСтаж, Должности.НадбавкаСтажМакс)) AS НадбавкаСтаж, NULL AS НадбавкаСотрудники, NULL AS НадбавкаИтог FROM Сотрудники LEFT JOIN Должности ON Сотрудники.Должность = Должности.ID", sqLiteConnection);
-                // Выведет всех людей с надбавками за @Date во временную таблицу, предварительно удаляя уже существующую
-                CMD.Parameters.Add("@Date", System.Data.DbType.DateTime).Value = DateTime.Today.AddMonths(1 - MONTHS).ToString("O").Split('T')[0];   // Параметр в который записывается Имя
-                CMD.ExecuteNonQuery();  // Выполнить запрос
-                CMD = new SQLiteCommand("UPDATE СотрудникиЗарплатыTemp SET НадбавкаСотрудники = 0 WHERE NOT EXISTS(SELECT Начальник FROM Иерархия WHERE СотрудникиЗарплатыTemp.ID = Иерархия.Начальник); UPDATE СотрудникиЗарплатыTemp SET НадбавкаИтог = БазоваяСтавка + НадбавкаСтаж + НадбавкаСотрудники WHERE НадбавкаСотрудники NOT NULL; UPDATE СотрудникиЗарплатыTemp SET НадбавкаСотрудники = 0, НадбавкаИтог = 0 WHERE НадбавкаСтаж< 0; ", sqLiteConnection);
-                // Сначала задает надбавку за подчиненных равной нулю тем у кого их нет
-                // Потом высчитывает зарплату тех у кого заполнено поле с надбавкой за подчиненных
-                // Потом задает итоговую ЗП равной нулю тем, кто на указанный момент ещё не устроился
-                CMD.ExecuteNonQuery();  // Выполнить запрос
-                //getSalary(compStruct);
-
-                List<string[]> tempDB = new List<string[]>();
-
-                CMD = new SQLiteCommand("SELECT * FROM Иерархия LEFT JOIN СотрудникиЗарплатыTemp ON Иерархия.Работник = СотрудникиЗарплатыTemp.ID", sqLiteConnection);    // Отображает всех MNG и SLM
-                SQLiteDataReader sqLiteDataReader = CMD.ExecuteReader();    // Переменная для чтения из "CMD"
-                if (sqLiteDataReader.HasRows)
-                {
-                    while (sqLiteDataReader.Read()) // Цикл будет считывать записи в "sqLiteDataReader" до последней 
-                    {
-                        tempDB.Add(new string[10]);
-                        for (int i = 0; i < tempDB[tempDB.Count - 1].Length; i++)
-                        {
-                            tempDB[tempDB.Count - 1][i] = sqLiteDataReader[i].ToString();
-                        }
-                    }
-                }
-                sqLiteDataReader.Close();
-
-                // Заносим в таблицу temp данные из запроса
-                getMoneyBoii(compStruct, tempDB);
-
-                switch (MONTHS - 1)
-                {
-                    case 5:
-                        {
-                            for(int i = 0; i < tempDB.Count; i ++)
-                            {
-                                CMD = new SQLiteCommand("UPDATE СотрудникиЗП SET ЗП5 = @MONEY WHERE СотрудникиЗП.ID = @ID;", sqLiteConnection);
-                                CMD.Parameters.Add("@MONEY", System.Data.DbType.Double).Value = tempDB[i][9];
-                                CMD.Parameters.Add("@ID", System.Data.DbType.Int32).Value = i+1;
-                                CMD.ExecuteNonQuery();
-                            }
-                            break;
-                        }
-                    case 4:
-                        {
-                            for (int i = 0; i < tempDB.Count; i++)
-                            {
-                                CMD = new SQLiteCommand("UPDATE СотрудникиЗП SET ЗП4 = @MONEY WHERE СотрудникиЗП.ID = @ID;", sqLiteConnection);
-                                CMD.Parameters.Add("@MONEY", System.Data.DbType.Double).Value = tempDB[i][9];
-                                CMD.Parameters.Add("@ID", System.Data.DbType.Int32).Value = i + 1;
-                                CMD.ExecuteNonQuery();
-                            }
-                            break;
-                        }
-                    case 3:
-                        {
-                            for (int i = 0; i < tempDB.Count; i++)
-                            {
-                                CMD = new SQLiteCommand("UPDATE СотрудникиЗП SET ЗП3 = @MONEY WHERE СотрудникиЗП.ID = @ID;", sqLiteConnection);
-                                CMD.Parameters.Add("@MONEY", System.Data.DbType.Double).Value = tempDB[i][9];
-                                CMD.Parameters.Add("@ID", System.Data.DbType.Int32).Value = i + 1;
-                                CMD.ExecuteNonQuery();
-                            }
-                            break;
-                        }
-                    case 2:
-                        {
-                            for (int i = 0; i < tempDB.Count; i++)
-                            {
-                                CMD = new SQLiteCommand("UPDATE СотрудникиЗП SET ЗП2 = @MONEY WHERE СотрудникиЗП.ID = @ID;", sqLiteConnection);
-                                CMD.Parameters.Add("@MONEY", System.Data.DbType.Double).Value = tempDB[i][9];
-                                CMD.Parameters.Add("@ID", System.Data.DbType.Int32).Value = i + 1;
-                                CMD.ExecuteNonQuery();
-                            }
-                            break;
-                        }
-                    case 1:
-                        {
-                            for (int i = 0; i < tempDB.Count; i++)
-                            {
-                                CMD = new SQLiteCommand("UPDATE СотрудникиЗП SET ЗП1 = @MONEY WHERE СотрудникиЗП.ID = @ID;", sqLiteConnection);
-                                CMD.Parameters.Add("@MONEY", System.Data.DbType.Double).Value = tempDB[i][9];
-                                CMD.Parameters.Add("@ID", System.Data.DbType.Int32).Value = i + 1;
-                                CMD.ExecuteNonQuery();
-                            }
-                            break;
-                        }
-                    case 0:
-                        {
-                            for (int i = 0; i < tempDB.Count; i++)
-                            {
-                                CMD = new SQLiteCommand("UPDATE СотрудникиЗП SET ЗП0 = @MONEY WHERE СотрудникиЗП.ID = @ID;", sqLiteConnection);
-                                CMD.Parameters.Add("@MONEY", System.Data.DbType.Double).Value = tempDB[i][9];
-                                CMD.Parameters.Add("@ID", System.Data.DbType.Int32).Value = i + 1;
-                                CMD.ExecuteNonQuery();
-                            }
-                            break;
-                        }
-                }
-            }
-        }
 
         private void UpdateWorkersInfoByOpeningTab(object sender, EventArgs e)
         {
@@ -458,7 +157,6 @@ namespace SQLiteTest
 
 
         } // Загрузка Информации о сотрудниках при переключении вкладки
-
         private void SetSupOnWor_Click(object sender, EventArgs e)
         {
             if (cb_Sup.Text != "" && cb_Wor.Text != "")
@@ -484,7 +182,6 @@ namespace SQLiteTest
                 MessageBox.Show("Заполните оба выпадающих списка.");
             };
         }   // Назначает руководителя сотруднику
-
         private void ShowWorForSup_Click(object sender, EventArgs e)
         {
             SQLiteCommand CMD = new SQLiteCommand("SELECT * FROM Сотрудники", sqLiteConnection);    // Отображает всех MNG и SLM
@@ -511,8 +208,157 @@ namespace SQLiteTest
             tab_Sup.Update();
             tb_outTree.Text = hierarchy;
         }   // Отображает руководителя со всеми подчиненными
+
+
+        double getSalary(Node nd, List<string[]> table)
+        {
+            double retSum = 0;
+            for (int i = 0; i < nd.Employees.Count; i++)
+            {
+                if (table[nd.Employees[i].ID - 1][8] != "")
+                {
+                    retSum += Convert.ToDouble(table[nd.Employees[i].ID - 1][9]);
+                }
+                else
+                {
+                    string[] temp = table[nd.Employees[i].ID - 1];
+                    temp[8] = (getSalary(nd.Employees[i], table) * (temp[5] == "Manager" ? 0.005 : 0.003)).ToString();
+                    double tempsum = 0;
+                    for (int j = 6; j < 9; j++)
+                    {
+                        tempsum += Convert.ToDouble(temp[j]);
+                    }
+                    temp[9] = tempsum.ToString();
+                    table.Remove(table[nd.Employees[i].ID - 1]);
+                    table.Add(temp);
+                    table.Sort(new compareListByID());
+                    retSum += Convert.ToDouble(table[nd.Employees[i].ID][9]);
+                }
+
+            }
+            return retSum;
+        }   // Посчитать ЗП и записать в БД
+        private void button3_Click(object sender, EventArgs e)
+        {
+            SQLiteCommand CMDa = new SQLiteCommand("DROP TABLE IF EXISTS СотрудникиЗП; CREATE TABLE СотрудникиЗП (ID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, Сотрудник TEXT, Должность TEXT, ЗП5 NUMERIC, ЗП4 NUMERIC, ЗП3 NUMERIC, ЗП2 NUMERIC, ЗП1 NUMERIC, ЗП0 NUMERIC); INSERT INTO СотрудникиЗП ( Сотрудник, Должность ) SELECT Имя, Должность FROM Сотрудники; UPDATE СотрудникиЗП SET Должность = (SELECT Должности.Название FROM Должности WHERE Должность = Должности.ID);", sqLiteConnection);
+            CMDa.ExecuteNonQuery();
+            for (int MONTHS = 6; MONTHS > 0; MONTHS--)
+            {
+                SQLiteCommand CMD = new SQLiteCommand("DROP TABLE IF EXISTS СотрудникиЗарплатыTemp; CREATE TABLE СотрудникиЗарплатыTemp AS SELECT Сотрудники.ID, Сотрудники.Имя, Должности.Название AS Должность, Должности.БазоваяСтавка, Должности.БазоваяСтавка * (min((@Date - Сотрудники.ДатаТрудоустройства - CASE WHEN strftime('%m-%d', @Date) < strftime('%m-%d', Сотрудники.ДатаТрудоустройства) THEN 1 ELSE 0 END) * Должности.НадбавкаСтаж, Должности.НадбавкаСтажМакс)) AS НадбавкаСтаж, NULL AS НадбавкаСотрудники, NULL AS НадбавкаИтог FROM Сотрудники LEFT JOIN Должности ON Сотрудники.Должность = Должности.ID", sqLiteConnection);
+                // Выведет всех людей с надбавками за @Date во временную таблицу, предварительно удаляя уже существующую
+                CMD.Parameters.Add("@Date", System.Data.DbType.DateTime).Value = DateTime.Today.AddMonths(1 - MONTHS).ToString("O").Split('T')[0];   // Параметр в который записывается Имя
+                CMD.ExecuteNonQuery();  // Выполнить запрос
+                CMD = new SQLiteCommand("UPDATE СотрудникиЗарплатыTemp SET НадбавкаСотрудники = 0 WHERE NOT EXISTS(SELECT Начальник FROM Иерархия WHERE СотрудникиЗарплатыTemp.ID = Иерархия.Начальник); UPDATE СотрудникиЗарплатыTemp SET НадбавкаИтог = БазоваяСтавка + НадбавкаСтаж + НадбавкаСотрудники WHERE НадбавкаСотрудники NOT NULL; UPDATE СотрудникиЗарплатыTemp SET НадбавкаСотрудники = 0, НадбавкаИтог = 0 WHERE НадбавкаСтаж< 0; ", sqLiteConnection);
+                // Сначала задает надбавку за подчиненных равной нулю тем у кого их нет
+                // Потом высчитывает зарплату тех у кого заполнено поле с надбавкой за подчиненных
+                // Потом задает итоговую ЗП равной нулю тем, кто на указанный момент ещё не устроился
+                CMD.ExecuteNonQuery();  // Выполнить запрос
+                //getSalary(compStruct);
+
+                List<string[]> tempDB = new List<string[]>();
+
+                CMD = new SQLiteCommand("SELECT * FROM Иерархия LEFT JOIN СотрудникиЗарплатыTemp ON Иерархия.Работник = СотрудникиЗарплатыTemp.ID", sqLiteConnection);    // Отображает всех MNG и SLM
+                SQLiteDataReader sqLiteDataReader = CMD.ExecuteReader();    // Переменная для чтения из "CMD"
+                if (sqLiteDataReader.HasRows)
+                {
+                    while (sqLiteDataReader.Read()) // Цикл будет считывать записи в "sqLiteDataReader" до последней 
+                    {
+                        tempDB.Add(new string[10]);
+                        for (int i = 0; i < tempDB[tempDB.Count - 1].Length; i++)
+                        {
+                            tempDB[tempDB.Count - 1][i] = sqLiteDataReader[i].ToString();
+                        }
+                    }
+                }
+                sqLiteDataReader.Close();
+
+                // Заносим в таблицу temp данные из запроса
+                getSalary(compStruct, tempDB);
+
+                switch (MONTHS - 1)
+                {
+                    case 5:
+                        {
+                            for (int i = 0; i < tempDB.Count; i++)
+                            {
+                                CMD = new SQLiteCommand("UPDATE СотрудникиЗП SET ЗП5 = @MONEY WHERE СотрудникиЗП.ID = @ID;", sqLiteConnection);
+                                CMD.Parameters.Add("@MONEY", System.Data.DbType.Double).Value = tempDB[i][9];
+                                CMD.Parameters.Add("@ID", System.Data.DbType.Int32).Value = i + 1;
+                                CMD.ExecuteNonQuery();
+                            }
+                            break;
+                        }
+                    case 4:
+                        {
+                            for (int i = 0; i < tempDB.Count; i++)
+                            {
+                                CMD = new SQLiteCommand("UPDATE СотрудникиЗП SET ЗП4 = @MONEY WHERE СотрудникиЗП.ID = @ID;", sqLiteConnection);
+                                CMD.Parameters.Add("@MONEY", System.Data.DbType.Double).Value = tempDB[i][9];
+                                CMD.Parameters.Add("@ID", System.Data.DbType.Int32).Value = i + 1;
+                                CMD.ExecuteNonQuery();
+                            }
+                            break;
+                        }
+                    case 3:
+                        {
+                            for (int i = 0; i < tempDB.Count; i++)
+                            {
+                                CMD = new SQLiteCommand("UPDATE СотрудникиЗП SET ЗП3 = @MONEY WHERE СотрудникиЗП.ID = @ID;", sqLiteConnection);
+                                CMD.Parameters.Add("@MONEY", System.Data.DbType.Double).Value = tempDB[i][9];
+                                CMD.Parameters.Add("@ID", System.Data.DbType.Int32).Value = i + 1;
+                                CMD.ExecuteNonQuery();
+                            }
+                            break;
+                        }
+                    case 2:
+                        {
+                            for (int i = 0; i < tempDB.Count; i++)
+                            {
+                                CMD = new SQLiteCommand("UPDATE СотрудникиЗП SET ЗП2 = @MONEY WHERE СотрудникиЗП.ID = @ID;", sqLiteConnection);
+                                CMD.Parameters.Add("@MONEY", System.Data.DbType.Double).Value = tempDB[i][9];
+                                CMD.Parameters.Add("@ID", System.Data.DbType.Int32).Value = i + 1;
+                                CMD.ExecuteNonQuery();
+                            }
+                            break;
+                        }
+                    case 1:
+                        {
+                            for (int i = 0; i < tempDB.Count; i++)
+                            {
+                                CMD = new SQLiteCommand("UPDATE СотрудникиЗП SET ЗП1 = @MONEY WHERE СотрудникиЗП.ID = @ID;", sqLiteConnection);
+                                CMD.Parameters.Add("@MONEY", System.Data.DbType.Double).Value = tempDB[i][9];
+                                CMD.Parameters.Add("@ID", System.Data.DbType.Int32).Value = i + 1;
+                                CMD.ExecuteNonQuery();
+                            }
+                            break;
+                        }
+                    case 0:
+                        {
+                            for (int i = 0; i < tempDB.Count; i++)
+                            {
+                                CMD = new SQLiteCommand("UPDATE СотрудникиЗП SET ЗП0 = @MONEY WHERE СотрудникиЗП.ID = @ID;", sqLiteConnection);
+                                CMD.Parameters.Add("@MONEY", System.Data.DbType.Double).Value = tempDB[i][9];
+                                CMD.Parameters.Add("@ID", System.Data.DbType.Int32).Value = i + 1;
+                                CMD.ExecuteNonQuery();
+                            }
+                            break;
+                        }
+                }
+            }
+            Form2 f2 = new Form2();
+            f2.ShowDialog();
+        }   // Посчитать ЗП всех сотрудников за последние 6 месяцев
+
+
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            Form4 f4 = new Form4(  );
+            f4.ShowDialog();
+        }   // Вывести отчёт для средних ЗП по должностям
     }
-class compareListByID : IComparer<string[]>
+
+    class compareListByID : IComparer<string[]>
     {
         public int Compare(string[] o1, string[] o2)
         {
@@ -527,7 +373,7 @@ class compareListByID : IComparer<string[]>
 
             return 0;
         }
-    }
+    }   // Класс для сортировки по ID
 
     public class Node
     {
