@@ -354,6 +354,27 @@
             </Mappings>
             <Sources />
           </TableAdapter>
+          <TableAdapter BaseClass="System.ComponentModel.Component" DataAccessorModifier="AutoLayout, AnsiClass, Class, Public" DataAccessorName="СуммаЗПTableAdapter" GeneratorDataComponentClassName="СуммаЗПTableAdapter" Name="СуммаЗП" UserDataComponentName="СуммаЗПTableAdapter">
+            <MainSource>
+              <DbSource ConnectionRef="ConnectionString1 (Settings)" DbObjectName="СуммаЗП" DbObjectType="View" FillMethodModifier="Public" FillMethodName="Fill" GenerateMethods="Both" GenerateShortCommands="false" GeneratorGetMethodName="GetData" GeneratorSourceName="Fill" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetData" UserSourceName="Fill">
+                <SelectCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="false">
+                    <CommandText>SELECT "СумЗП5", "СумЗП4", "СумЗП3", "СумЗП2", "СумЗП1", "СумЗП0" FROM "СуммаЗП"</CommandText>
+                    <Parameters />
+                  </DbCommand>
+                </SelectCommand>
+              </DbSource>
+            </MainSource>
+            <Mappings>
+              <Mapping SourceColumn="СумЗП5" DataSetColumn="СумЗП5" />
+              <Mapping SourceColumn="СумЗП4" DataSetColumn="СумЗП4" />
+              <Mapping SourceColumn="СумЗП3" DataSetColumn="СумЗП3" />
+              <Mapping SourceColumn="СумЗП2" DataSetColumn="СумЗП2" />
+              <Mapping SourceColumn="СумЗП1" DataSetColumn="СумЗП1" />
+              <Mapping SourceColumn="СумЗП0" DataSetColumn="СумЗП0" />
+            </Mappings>
+            <Sources />
+          </TableAdapter>
         </Tables>
         <Sources />
       </DataSource>
@@ -362,7 +383,7 @@
   <xs:element name="companyBD" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="True" msprop:Generator_DataSetName="companyBD" msprop:Generator_UserDSName="companyBD">
     <xs:complexType>
       <xs:choice minOccurs="0" maxOccurs="unbounded">
-        <xs:element name="sqlite_sequence" msprop:Generator_TableClassName="sqlite_sequenceDataTable" msprop:Generator_TableVarName="tablesqlite_sequence" msprop:Generator_RowChangedName="sqlite_sequenceRowChanged" msprop:Generator_TablePropName="sqlite_sequence" msprop:Generator_RowDeletingName="sqlite_sequenceRowDeleting" msprop:Generator_RowChangingName="sqlite_sequenceRowChanging" msprop:Generator_RowEvHandlerName="sqlite_sequenceRowChangeEventHandler" msprop:Generator_RowDeletedName="sqlite_sequenceRowDeleted" msprop:Generator_RowClassName="sqlite_sequenceRow" msprop:Generator_UserTableName="sqlite_sequence" msprop:Generator_RowEvArgName="sqlite_sequenceRowChangeEvent">
+        <xs:element name="sqlite_sequence" msprop:Generator_TableClassName="sqlite_sequenceDataTable" msprop:Generator_TableVarName="tablesqlite_sequence" msprop:Generator_TablePropName="sqlite_sequence" msprop:Generator_RowDeletingName="sqlite_sequenceRowDeleting" msprop:Generator_RowChangingName="sqlite_sequenceRowChanging" msprop:Generator_RowEvHandlerName="sqlite_sequenceRowChangeEventHandler" msprop:Generator_RowDeletedName="sqlite_sequenceRowDeleted" msprop:Generator_UserTableName="sqlite_sequence" msprop:Generator_RowChangedName="sqlite_sequenceRowChanged" msprop:Generator_RowEvArgName="sqlite_sequenceRowChangeEvent" msprop:Generator_RowClassName="sqlite_sequenceRow">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="name" msprop:Generator_ColumnVarNameInTable="columnname" msprop:Generator_ColumnPropNameInRow="name" msprop:Generator_ColumnPropNameInTable="nameColumn" msprop:Generator_UserColumnName="name" minOccurs="0">
@@ -382,7 +403,7 @@
             </xs:sequence>
           </xs:complexType>
         </xs:element>
-        <xs:element name="Должности" msprop:Generator_TableClassName="ДолжностиDataTable" msprop:Generator_TableVarName="tableДолжности" msprop:Generator_RowChangedName="ДолжностиRowChanged" msprop:Generator_TablePropName="Должности" msprop:Generator_RowDeletingName="ДолжностиRowDeleting" msprop:Generator_RowChangingName="ДолжностиRowChanging" msprop:Generator_RowEvHandlerName="ДолжностиRowChangeEventHandler" msprop:Generator_RowDeletedName="ДолжностиRowDeleted" msprop:Generator_RowClassName="ДолжностиRow" msprop:Generator_UserTableName="Должности" msprop:Generator_RowEvArgName="ДолжностиRowChangeEvent">
+        <xs:element name="Должности" msprop:Generator_TableClassName="ДолжностиDataTable" msprop:Generator_TableVarName="tableДолжности" msprop:Generator_TablePropName="Должности" msprop:Generator_RowDeletingName="ДолжностиRowDeleting" msprop:Generator_RowChangingName="ДолжностиRowChanging" msprop:Generator_RowEvHandlerName="ДолжностиRowChangeEventHandler" msprop:Generator_RowDeletedName="ДолжностиRowDeleted" msprop:Generator_UserTableName="Должности" msprop:Generator_RowChangedName="ДолжностиRowChanged" msprop:Generator_RowEvArgName="ДолжностиRowChangeEvent" msprop:Generator_RowClassName="ДолжностиRow">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="ID" msdata:AutoIncrement="true" msdata:AutoIncrementSeed="-1" msdata:AutoIncrementStep="-1" msprop:Generator_ColumnVarNameInTable="columnID" msprop:Generator_ColumnPropNameInRow="ID" msprop:Generator_ColumnPropNameInTable="IDColumn" msprop:Generator_UserColumnName="ID" type="xs:int" />
@@ -400,7 +421,7 @@
             </xs:sequence>
           </xs:complexType>
         </xs:element>
-        <xs:element name="Иерархия" msprop:Generator_TableClassName="ИерархияDataTable" msprop:Generator_TableVarName="tableИерархия" msprop:Generator_RowChangedName="ИерархияRowChanged" msprop:Generator_TablePropName="Иерархия" msprop:Generator_RowDeletingName="ИерархияRowDeleting" msprop:Generator_RowChangingName="ИерархияRowChanging" msprop:Generator_RowEvHandlerName="ИерархияRowChangeEventHandler" msprop:Generator_RowDeletedName="ИерархияRowDeleted" msprop:Generator_RowClassName="ИерархияRow" msprop:Generator_UserTableName="Иерархия" msprop:Generator_RowEvArgName="ИерархияRowChangeEvent">
+        <xs:element name="Иерархия" msprop:Generator_TableClassName="ИерархияDataTable" msprop:Generator_TableVarName="tableИерархия" msprop:Generator_TablePropName="Иерархия" msprop:Generator_RowDeletingName="ИерархияRowDeleting" msprop:Generator_RowChangingName="ИерархияRowChanging" msprop:Generator_RowEvHandlerName="ИерархияRowChangeEventHandler" msprop:Generator_RowDeletedName="ИерархияRowDeleted" msprop:Generator_UserTableName="Иерархия" msprop:Generator_RowChangedName="ИерархияRowChanged" msprop:Generator_RowEvArgName="ИерархияRowChangeEvent" msprop:Generator_RowClassName="ИерархияRow">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="ID" msdata:AutoIncrement="true" msdata:AutoIncrementSeed="-1" msdata:AutoIncrementStep="-1" msprop:Generator_ColumnVarNameInTable="columnID" msprop:Generator_ColumnPropNameInRow="ID" msprop:Generator_ColumnPropNameInTable="IDColumn" msprop:Generator_UserColumnName="ID" type="xs:int" />
@@ -421,7 +442,7 @@
             </xs:sequence>
           </xs:complexType>
         </xs:element>
-        <xs:element name="Сотрудники" msprop:Generator_TableClassName="СотрудникиDataTable" msprop:Generator_TableVarName="tableСотрудники" msprop:Generator_RowChangedName="СотрудникиRowChanged" msprop:Generator_TablePropName="Сотрудники" msprop:Generator_RowDeletingName="СотрудникиRowDeleting" msprop:Generator_RowChangingName="СотрудникиRowChanging" msprop:Generator_RowEvHandlerName="СотрудникиRowChangeEventHandler" msprop:Generator_RowDeletedName="СотрудникиRowDeleted" msprop:Generator_RowClassName="СотрудникиRow" msprop:Generator_UserTableName="Сотрудники" msprop:Generator_RowEvArgName="СотрудникиRowChangeEvent">
+        <xs:element name="Сотрудники" msprop:Generator_TableClassName="СотрудникиDataTable" msprop:Generator_TableVarName="tableСотрудники" msprop:Generator_TablePropName="Сотрудники" msprop:Generator_RowDeletingName="СотрудникиRowDeleting" msprop:Generator_RowChangingName="СотрудникиRowChanging" msprop:Generator_RowEvHandlerName="СотрудникиRowChangeEventHandler" msprop:Generator_RowDeletedName="СотрудникиRowDeleted" msprop:Generator_UserTableName="Сотрудники" msprop:Generator_RowChangedName="СотрудникиRowChanged" msprop:Generator_RowEvArgName="СотрудникиRowChangeEvent" msprop:Generator_RowClassName="СотрудникиRow">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="ID" msdata:AutoIncrement="true" msdata:AutoIncrementSeed="-1" msdata:AutoIncrementStep="-1" msprop:Generator_ColumnVarNameInTable="columnID" msprop:Generator_ColumnPropNameInRow="ID" msprop:Generator_ColumnPropNameInTable="IDColumn" msprop:Generator_UserColumnName="ID" type="xs:int" />
@@ -443,7 +464,7 @@
             </xs:sequence>
           </xs:complexType>
         </xs:element>
-        <xs:element name="СотрудникиЗарплатыTemp" msprop:Generator_TableClassName="СотрудникиЗарплатыTempDataTable" msprop:Generator_TableVarName="tableСотрудникиЗарплатыTemp" msprop:Generator_RowChangedName="СотрудникиЗарплатыTempRowChanged" msprop:Generator_TablePropName="СотрудникиЗарплатыTemp" msprop:Generator_RowDeletingName="СотрудникиЗарплатыTempRowDeleting" msprop:Generator_RowChangingName="СотрудникиЗарплатыTempRowChanging" msprop:Generator_RowEvHandlerName="СотрудникиЗарплатыTempRowChangeEventHandler" msprop:Generator_RowDeletedName="СотрудникиЗарплатыTempRowDeleted" msprop:Generator_RowClassName="СотрудникиЗарплатыTempRow" msprop:Generator_UserTableName="СотрудникиЗарплатыTemp" msprop:Generator_RowEvArgName="СотрудникиЗарплатыTempRowChangeEvent">
+        <xs:element name="СотрудникиЗарплатыTemp" msprop:Generator_TableClassName="СотрудникиЗарплатыTempDataTable" msprop:Generator_TableVarName="tableСотрудникиЗарплатыTemp" msprop:Generator_TablePropName="СотрудникиЗарплатыTemp" msprop:Generator_RowDeletingName="СотрудникиЗарплатыTempRowDeleting" msprop:Generator_RowChangingName="СотрудникиЗарплатыTempRowChanging" msprop:Generator_RowEvHandlerName="СотрудникиЗарплатыTempRowChangeEventHandler" msprop:Generator_RowDeletedName="СотрудникиЗарплатыTempRowDeleted" msprop:Generator_UserTableName="СотрудникиЗарплатыTemp" msprop:Generator_RowChangedName="СотрудникиЗарплатыTempRowChanged" msprop:Generator_RowEvArgName="СотрудникиЗарплатыTempRowChangeEvent" msprop:Generator_RowClassName="СотрудникиЗарплатыTempRow">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="ID" msprop:Generator_ColumnVarNameInTable="columnID" msprop:Generator_ColumnPropNameInRow="ID" msprop:Generator_ColumnPropNameInTable="IDColumn" msprop:Generator_UserColumnName="ID" type="xs:int" minOccurs="0" />
@@ -492,7 +513,7 @@
             </xs:sequence>
           </xs:complexType>
         </xs:element>
-        <xs:element name="СотрудникиЗП" msprop:Generator_TableClassName="СотрудникиЗПDataTable" msprop:Generator_TableVarName="tableСотрудникиЗП" msprop:Generator_RowChangedName="СотрудникиЗПRowChanged" msprop:Generator_TablePropName="СотрудникиЗП" msprop:Generator_RowDeletingName="СотрудникиЗПRowDeleting" msprop:Generator_RowChangingName="СотрудникиЗПRowChanging" msprop:Generator_RowEvHandlerName="СотрудникиЗПRowChangeEventHandler" msprop:Generator_RowDeletedName="СотрудникиЗПRowDeleted" msprop:Generator_RowClassName="СотрудникиЗПRow" msprop:Generator_UserTableName="СотрудникиЗП" msprop:Generator_RowEvArgName="СотрудникиЗПRowChangeEvent">
+        <xs:element name="СотрудникиЗП" msprop:Generator_TableClassName="СотрудникиЗПDataTable" msprop:Generator_TableVarName="tableСотрудникиЗП" msprop:Generator_TablePropName="СотрудникиЗП" msprop:Generator_RowDeletingName="СотрудникиЗПRowDeleting" msprop:Generator_RowChangingName="СотрудникиЗПRowChanging" msprop:Generator_RowEvHandlerName="СотрудникиЗПRowChangeEventHandler" msprop:Generator_RowDeletedName="СотрудникиЗПRowDeleted" msprop:Generator_UserTableName="СотрудникиЗП" msprop:Generator_RowChangedName="СотрудникиЗПRowChanged" msprop:Generator_RowEvArgName="СотрудникиЗПRowChangeEvent" msprop:Generator_RowClassName="СотрудникиЗПRow">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="ID" msdata:AutoIncrement="true" msdata:AutoIncrementSeed="-1" msdata:AutoIncrementStep="-1" msprop:Generator_ColumnVarNameInTable="columnID" msprop:Generator_ColumnPropNameInRow="ID" msprop:Generator_ColumnPropNameInTable="IDColumn" msprop:Generator_UserColumnName="ID" type="xs:int" />
@@ -519,7 +540,7 @@
             </xs:sequence>
           </xs:complexType>
         </xs:element>
-        <xs:element name="СредняяЗП" msprop:Generator_TableClassName="СредняяЗПDataTable" msprop:Generator_TableVarName="tableСредняяЗП" msprop:Generator_TablePropName="СредняяЗП" msprop:Generator_RowDeletingName="СредняяЗПRowDeleting" msprop:Generator_RowChangingName="СредняяЗПRowChanging" msprop:Generator_RowEvHandlerName="СредняяЗПRowChangeEventHandler" msprop:Generator_RowDeletedName="СредняяЗПRowDeleted" msprop:Generator_UserTableName="СредняяЗП" msprop:Generator_RowChangedName="СредняяЗПRowChanged" msprop:Generator_RowEvArgName="СредняяЗПRowChangeEvent" msprop:Generator_RowClassName="СредняяЗПRow">
+        <xs:element name="СредняяЗП" msprop:Generator_TableClassName="СредняяЗПDataTable" msprop:Generator_TableVarName="tableСредняяЗП" msprop:Generator_RowChangedName="СредняяЗПRowChanged" msprop:Generator_TablePropName="СредняяЗП" msprop:Generator_RowDeletingName="СредняяЗПRowDeleting" msprop:Generator_RowChangingName="СредняяЗПRowChanging" msprop:Generator_RowEvHandlerName="СредняяЗПRowChangeEventHandler" msprop:Generator_RowDeletedName="СредняяЗПRowDeleted" msprop:Generator_RowClassName="СредняяЗПRow" msprop:Generator_UserTableName="СредняяЗП" msprop:Generator_RowEvArgName="СредняяЗПRowChangeEvent">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="Должность" msprop:Generator_ColumnVarNameInTable="columnДолжность" msprop:Generator_ColumnPropNameInRow="Должность" msprop:Generator_ColumnPropNameInTable="ДолжностьColumn" msprop:Generator_UserColumnName="Должность" minOccurs="0">
@@ -530,6 +551,54 @@
                 </xs:simpleType>
               </xs:element>
               <xs:element name="СредняяЗП" msprop:Generator_ColumnVarNameInTable="columnСредняяЗП" msprop:Generator_ColumnPropNameInRow="СредняяЗП" msprop:Generator_ColumnPropNameInTable="СредняяЗПColumn" msprop:Generator_UserColumnName="СредняяЗП" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="255" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="СуммаЗП" msprop:Generator_TableClassName="СуммаЗПDataTable" msprop:Generator_TableVarName="tableСуммаЗП" msprop:Generator_TablePropName="СуммаЗП" msprop:Generator_RowDeletingName="СуммаЗПRowDeleting" msprop:Generator_RowChangingName="СуммаЗПRowChanging" msprop:Generator_RowEvHandlerName="СуммаЗПRowChangeEventHandler" msprop:Generator_RowDeletedName="СуммаЗПRowDeleted" msprop:Generator_UserTableName="СуммаЗП" msprop:Generator_RowChangedName="СуммаЗПRowChanged" msprop:Generator_RowEvArgName="СуммаЗПRowChangeEvent" msprop:Generator_RowClassName="СуммаЗПRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="СумЗП5" msprop:Generator_ColumnVarNameInTable="columnСумЗП5" msprop:Generator_ColumnPropNameInRow="СумЗП5" msprop:Generator_ColumnPropNameInTable="СумЗП5Column" msprop:Generator_UserColumnName="СумЗП5" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="255" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="СумЗП4" msprop:Generator_ColumnVarNameInTable="columnСумЗП4" msprop:Generator_ColumnPropNameInRow="СумЗП4" msprop:Generator_ColumnPropNameInTable="СумЗП4Column" msprop:Generator_UserColumnName="СумЗП4" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="255" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="СумЗП3" msprop:Generator_ColumnVarNameInTable="columnСумЗП3" msprop:Generator_ColumnPropNameInRow="СумЗП3" msprop:Generator_ColumnPropNameInTable="СумЗП3Column" msprop:Generator_UserColumnName="СумЗП3" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="255" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="СумЗП2" msprop:Generator_ColumnVarNameInTable="columnСумЗП2" msprop:Generator_ColumnPropNameInRow="СумЗП2" msprop:Generator_ColumnPropNameInTable="СумЗП2Column" msprop:Generator_UserColumnName="СумЗП2" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="255" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="СумЗП1" msprop:Generator_ColumnVarNameInTable="columnСумЗП1" msprop:Generator_ColumnPropNameInRow="СумЗП1" msprop:Generator_ColumnPropNameInTable="СумЗП1Column" msprop:Generator_UserColumnName="СумЗП1" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="255" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="СумЗП0" msprop:Generator_ColumnVarNameInTable="columnСумЗП0" msprop:Generator_ColumnPropNameInRow="СумЗП0" msprop:Generator_ColumnPropNameInTable="СумЗП0Column" msprop:Generator_UserColumnName="СумЗП0" minOccurs="0">
                 <xs:simpleType>
                   <xs:restriction base="xs:string">
                     <xs:maxLength value="255" />

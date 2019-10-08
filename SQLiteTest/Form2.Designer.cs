@@ -30,39 +30,55 @@
         {
             this.components = new System.ComponentModel.Container();
             Microsoft.Reporting.WinForms.ReportDataSource reportDataSource1 = new Microsoft.Reporting.WinForms.ReportDataSource();
-            this.reportViewer1 = new Microsoft.Reporting.WinForms.ReportViewer();
-            this.companyBD = new SQLiteTest.companyBD();
+            Microsoft.Reporting.WinForms.ReportDataSource reportDataSource2 = new Microsoft.Reporting.WinForms.ReportDataSource();
             this.СотрудникиЗПBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.companyBD = new SQLiteTest.companyBD();
+            this.reportViewer1 = new Microsoft.Reporting.WinForms.ReportViewer();
             this.СотрудникиЗПTableAdapter = new SQLiteTest.companyBDTableAdapters.СотрудникиЗПTableAdapter();
-            ((System.ComponentModel.ISupportInitialize)(this.companyBD)).BeginInit();
+            this.СуммаЗПBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.СуммаЗПTableAdapter = new SQLiteTest.companyBDTableAdapters.СуммаЗПTableAdapter();
             ((System.ComponentModel.ISupportInitialize)(this.СотрудникиЗПBindingSource)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.companyBD)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.СуммаЗПBindingSource)).BeginInit();
             this.SuspendLayout();
-            // 
-            // reportViewer1
-            // 
-            this.reportViewer1.Dock = System.Windows.Forms.DockStyle.Fill;
-            reportDataSource1.Name = "salWor";
-            reportDataSource1.Value = this.СотрудникиЗПBindingSource;
-            this.reportViewer1.LocalReport.DataSources.Add(reportDataSource1);
-            this.reportViewer1.LocalReport.ReportEmbeddedResource = "SQLiteTest.AllWorksSalLast6MM.rdlc";
-            this.reportViewer1.Location = new System.Drawing.Point(0, 0);
-            this.reportViewer1.Name = "reportViewer1";
-            this.reportViewer1.Size = new System.Drawing.Size(916, 383);
-            this.reportViewer1.TabIndex = 0;
-            // 
-            // companyBD
-            // 
-            this.companyBD.DataSetName = "companyBD";
-            this.companyBD.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
             // 
             // СотрудникиЗПBindingSource
             // 
             this.СотрудникиЗПBindingSource.DataMember = "СотрудникиЗП";
             this.СотрудникиЗПBindingSource.DataSource = this.companyBD;
             // 
+            // companyBD
+            // 
+            this.companyBD.DataSetName = "companyBD";
+            this.companyBD.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
+            // 
+            // reportViewer1
+            // 
+            this.reportViewer1.Dock = System.Windows.Forms.DockStyle.Fill;
+            reportDataSource1.Name = "salWor";
+            reportDataSource1.Value = this.СотрудникиЗПBindingSource;
+            reportDataSource2.Name = "sumSalWor";
+            reportDataSource2.Value = this.СуммаЗПBindingSource;
+            this.reportViewer1.LocalReport.DataSources.Add(reportDataSource1);
+            this.reportViewer1.LocalReport.DataSources.Add(reportDataSource2);
+            this.reportViewer1.LocalReport.ReportEmbeddedResource = "SQLiteTest.AllWorksSalLast6MM.rdlc";
+            this.reportViewer1.Location = new System.Drawing.Point(0, 0);
+            this.reportViewer1.Name = "reportViewer1";
+            this.reportViewer1.Size = new System.Drawing.Size(916, 383);
+            this.reportViewer1.TabIndex = 0;
+            // 
             // СотрудникиЗПTableAdapter
             // 
             this.СотрудникиЗПTableAdapter.ClearBeforeFill = true;
+            // 
+            // СуммаЗПBindingSource
+            // 
+            this.СуммаЗПBindingSource.DataMember = "СуммаЗП";
+            this.СуммаЗПBindingSource.DataSource = this.companyBD;
+            // 
+            // СуммаЗПTableAdapter
+            // 
+            this.СуммаЗПTableAdapter.ClearBeforeFill = true;
             // 
             // Form2
             // 
@@ -73,8 +89,9 @@
             this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "Form2";
             this.Load += new System.EventHandler(this.Form2_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.companyBD)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.СотрудникиЗПBindingSource)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.companyBD)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.СуммаЗПBindingSource)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -85,5 +102,7 @@
         private System.Windows.Forms.BindingSource СотрудникиЗПBindingSource;
         private companyBD companyBD;
         private companyBDTableAdapters.СотрудникиЗПTableAdapter СотрудникиЗПTableAdapter;
+        private System.Windows.Forms.BindingSource СуммаЗПBindingSource;
+        private companyBDTableAdapters.СуммаЗПTableAdapter СуммаЗПTableAdapter;
     }
 }
