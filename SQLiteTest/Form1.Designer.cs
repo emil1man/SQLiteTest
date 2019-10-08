@@ -49,8 +49,8 @@
             this.tb_outTree = new System.Windows.Forms.TextBox();
             this.tab_Out = new System.Windows.Forms.TabPage();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
-            this.button3 = new System.Windows.Forms.Button();
             this.button4 = new System.Windows.Forms.Button();
+            this.button3 = new System.Windows.Forms.Button();
             this.button5 = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tab_Wor.SuspendLayout();
@@ -322,17 +322,6 @@
             this.tableLayoutPanel3.Size = new System.Drawing.Size(610, 249);
             this.tableLayoutPanel3.TabIndex = 3;
             // 
-            // button3
-            // 
-            this.button3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.button3.Location = new System.Drawing.Point(3, 3);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(604, 77);
-            this.button3.TabIndex = 1;
-            this.button3.Text = "Создать отчёт о зарплатах сотрудников за 6 месяцев";
-            this.button3.UseVisualStyleBackColor = true;
-            this.button3.Click += new System.EventHandler(this.button3_Click);
-            // 
             // button4
             // 
             this.button4.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -343,6 +332,17 @@
             this.button4.Text = "Вывести информацию о руководителях";
             this.button4.UseVisualStyleBackColor = true;
             this.button4.Click += new System.EventHandler(this.button4_Click);
+            // 
+            // button3
+            // 
+            this.button3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.button3.Location = new System.Drawing.Point(3, 3);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(604, 77);
+            this.button3.TabIndex = 1;
+            this.button3.Text = "Создать отчёт о зарплатах сотрудников за 6 месяцев";
+            this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
             // button5
             // 

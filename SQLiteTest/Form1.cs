@@ -184,29 +184,32 @@ namespace SQLiteTest
         }   // Назначает руководителя сотруднику
         private void ShowWorForSup_Click(object sender, EventArgs e)
         {
-            SQLiteCommand CMD = new SQLiteCommand("SELECT * FROM Сотрудники", sqLiteConnection);    // Отображает всех MNG и SLM
-            SQLiteDataReader sqLiteDataReader = CMD.ExecuteReader();    // Переменная для чтения из "CMD"
-            List<string[]> workersAll = new List<string[]>();
-            if (sqLiteDataReader.HasRows)
+            if(cb_Sup.Text != "")
             {
-                while (sqLiteDataReader.Read()) // Цикл будет считывать записи в "sqLiteDataReader" до последней 
+                SQLiteCommand CMD = new SQLiteCommand("SELECT * FROM Сотрудники", sqLiteConnection);    // Отображает всех MNG и SLM
+                SQLiteDataReader sqLiteDataReader = CMD.ExecuteReader();    // Переменная для чтения из "CMD"
+                List<string[]> workersAll = new List<string[]>();
+                if (sqLiteDataReader.HasRows)
                 {
-                    workersAll.Add(new string[2]);
-                    workersAll[workersAll.Count - 1][0] = sqLiteDataReader[1].ToString();
-                    workersAll[workersAll.Count - 1][1] = tb_worPos.Items[Convert.ToInt32(sqLiteDataReader[2]) - 1].ToString();
-                }
-            }   // Заполняет массив работников их фамилиями и должностями
+                    while (sqLiteDataReader.Read()) // Цикл будет считывать записи в "sqLiteDataReader" до последней 
+                    {
+                        workersAll.Add(new string[2]);
+                        workersAll[workersAll.Count - 1][0] = sqLiteDataReader[1].ToString();
+                        workersAll[workersAll.Count - 1][1] = tb_worPos.Items[Convert.ToInt32(sqLiteDataReader[2]) - 1].ToString();
+                    }
+                }   // Заполняет массив работников их фамилиями и должностями
 
-            string hierarchy = Node.NodesFindShowByID(compStruct, 0, Convert.ToInt32(possibleSupervisers[cb_Sup.SelectedIndex][0])); // Поиск в Иерархии по выбранному в cb ID и вывод в строковое представление
-            Regex reg = new Regex(@"[\d]+", RegexOptions.Multiline);    // Создание регулярного выражения для поиска ID
-            int max = Regex.Matches(hierarchy, @"[\d]+").Count; // Вычисление кол-ва позиций
-            for (int i = 0; i < max; i++)
-            {
-                string[] temp = workersAll[Convert.ToInt32(Regex.Match(hierarchy, @"[\d]+").Value) - 1];
-                hierarchy = reg.Replace(hierarchy, temp[0] + " " + temp[1], 1);
-            }   // Замена цифр на имена по ID сотрудника
-            tab_Sup.Update();
-            tb_outTree.Text = hierarchy;
+                string hierarchy = Node.NodesFindShowByID(compStruct, 0, Convert.ToInt32(possibleSupervisers[cb_Sup.SelectedIndex][0])); // Поиск в Иерархии по выбранному в cb ID и вывод в строковое представление
+                Regex reg = new Regex(@"[\d]+", RegexOptions.Multiline);    // Создание регулярного выражения для поиска ID
+                int max = Regex.Matches(hierarchy, @"[\d]+").Count; // Вычисление кол-ва позиций
+                for (int i = 0; i < max; i++)
+                {
+                    string[] temp = workersAll[Convert.ToInt32(Regex.Match(hierarchy, @"[\d]+").Value) - 1];
+                    hierarchy = reg.Replace(hierarchy, temp[0] + " " + temp[1], 1);
+                }   // Замена цифр на имена по ID сотрудника
+                tab_Sup.Update();
+                tb_outTree.Text = hierarchy;
+            }
         }   // Отображает руководителя со всеми подчиненными
 
 
